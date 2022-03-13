@@ -76,6 +76,14 @@ export default () => {
     return <Table.Cell {...props} />;
   };
 
+  const [defaultFilters] = useState([
+    { columnName: "Title", value: "Pokémon" },
+  ]);
+  const [filteringStateColumnExtensions] = useState([
+    { columnName: "Poster", filteringEnabled: false },
+    { columnName: "imdbID", filteringEnabled: false },
+  ]);
+
   return (
     <>
       {rows.length > 0 ? (
@@ -87,8 +95,12 @@ export default () => {
               currentPage={currentPageVal}
               onCurrentPageChange={setCurrentPageVal}
             />
+
             <SearchState defaultValue="Pokémon" />
-            <FilteringState defaultFilters={[]} />
+            <FilteringState
+              defaultFilters={defaultFilters}
+              columnExtensions={filteringStateColumnExtensions}
+            />
             <IntegratedFiltering />
             <CustomPaging totalCount={totalResult} />
             <Table cellComponent={Cell} />

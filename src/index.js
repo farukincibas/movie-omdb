@@ -6,14 +6,36 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import CssBaseline from "@mui/material/CssBaseline";
 import MovieAppProvider from "./context/MovieContext";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+
+const themeDark = createTheme({
+  palette: {
+    background: {
+      default: "#222222",
+    },
+    text: {
+      primary: "#ffffff",
+    },
+  },
+});
+
+const themeLight = createTheme({
+  palette: {
+    background: {
+      default: "#e4f0e2",
+    },
+  },
+});
 
 ReactDOM.render(
-  <BrowserRouter>
-    <CssBaseline />
-    <MovieAppProvider>
-      <App />
-    </MovieAppProvider>
-  </BrowserRouter>,
+  <ThemeProvider theme={themeLight}>
+    <BrowserRouter>
+      <CssBaseline />
+      <MovieAppProvider>
+        <App />
+      </MovieAppProvider>
+    </BrowserRouter>
+  </ThemeProvider>,
   document.getElementById("root")
 );
 
