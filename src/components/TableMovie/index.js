@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Paper from "@mui/material/Paper";
 import {
   SearchState,
   IntegratedFiltering,
   FilteringState,
   PagingState,
-  IntegratedPaging,
+  CustomPaging,
 } from "@devexpress/dx-react-grid";
 import {
   Grid,
@@ -17,50 +17,91 @@ import {
   TableFilterRow,
 } from "@devexpress/dx-react-grid-material-ui";
 
-import { generateRows } from "../../demo-data/generator.js";
 import { Link } from "react-router-dom";
+import { MovieContext } from "../../context/MovieContext";
 
 export default () => {
   const [columns] = useState([
-    { name: "name", title: "Name" },
-    { name: "gender", title: "Gender" },
-    { name: "city", title: "City" },
-    { name: "car", title: "Car" },
+    { name: "Poster", title: "Poster" },
+    { name: "Title", title: "Name" },
+    { name: "Type", title: "Type" },
+    { name: "Year", title: "Year" },
+    { name: "imdbID", title: "imdbID" },
   ]);
-  const [rows] = useState(generateRows({ length: 60 }));
+  const { setSearch, movies, setCurrentPage, totalResult } =
+    useContext(MovieContext);
+  const [rows, setRows] = useState([]);
   const [pageSizes] = useState([10, 15, 0]);
+  const [currentPageVal, setCurrentPageVal] = useState(0);
 
-  const HighlightedCell = ({ value, style, ...restProps }) => (
+  useEffect(() => {
+    setCurrentPage(currentPageVal + 1);
+    setSearch("pokemon", currentPageVal + 1);
+    if (movies) {
+      setRows(movies);
+    }
+  }, [currentPageVal]);
+
+  useEffect(() => {
+    if (movies) {
+      setRows(movies);
+    }
+    console.log(movies);
+    console.log(totalResult);
+  }, [movies]);
+
+  const LinkedCell = ({ row, value, style, ...restProps }) => (
     <Table.Cell {...restProps}>
       <nav>
-        <Link to="/about">{value}</Link>
+        <Link to={"/about/" + row?.imdbID}>{value}</Link>
       </nav>
+    </Table.Cell>
+  );
+
+  const ImagedCell = ({ value, style, ...restProps }) => (
+    <Table.Cell {...restProps}>
+      <img src={value}></img>
     </Table.Cell>
   );
 
   const Cell = (props) => {
     const { column } = props;
-    if (column.name === "name") {
-      return <HighlightedCell {...props} />;
+    console.log(props);
+    if (column.name === "Title") {
+      return <LinkedCell {...props} />;
+    }
+    if (column.name === "Poster") {
+      return <ImagedCell {...props} />;
     }
     return <Table.Cell {...props} />;
   };
 
   return (
-    <Paper>
-      <Grid rows={rows} columns={columns}>
-        <PagingState defaultCurrentPage={0} defaultPageSize={10} />
-        <IntegratedPaging />
-        <SearchState defaultValue="Paris" />
-        <FilteringState defaultFilters={[]} />
-        <IntegratedFiltering />
-        <Table cellComponent={Cell} />
-        <TableHeaderRow />
-        <TableFilterRow />
-        <PagingPanel pageSizes={pageSizes} />
-        <Toolbar />
-        <SearchPanel />
-      </Grid>
-    </Paper>
+    <>
+      {rows.length > 0 ? (
+        <Paper>
+          <Grid rows={rows} columns={columns}>
+            <PagingState
+              defaultCurrentPage={0}
+              defaultPageSize={10}
+              currentPage={currentPageVal}
+              onCurrentPageChange={setCurrentPageVal}
+            />
+            <SearchState defaultValue="Pokémon" />
+            <FilteringState defaultFilters={[]} />
+            <IntegratedFiltering />
+            <CustomPaging totalCount={totalResult} />
+            <Table cellComponent={Cell} />
+            <TableHeaderRow />
+            <TableFilterRow />
+            <PagingPanel pageSizes={pageSizes} />
+            <Toolbar />
+            <SearchPanel />
+          </Grid>
+        </Paper>
+      ) : (
+        <></>
+      )}
+    </>
   );
 };

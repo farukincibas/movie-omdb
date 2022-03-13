@@ -5,11 +5,14 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import CssBaseline from "@mui/material/CssBaseline";
+import MovieAppProvider from "./context/MovieContext";
 
 ReactDOM.render(
   <BrowserRouter>
     <CssBaseline />
-    <App />
+    <MovieAppProvider>
+      <App />
+    </MovieAppProvider>
   </BrowserRouter>,
   document.getElementById("root")
 );
