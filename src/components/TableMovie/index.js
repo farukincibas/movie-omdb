@@ -18,6 +18,7 @@ import {
 } from "@devexpress/dx-react-grid-material-ui";
 
 import { generateRows } from "../../demo-data/generator.js";
+import { Link } from "react-router-dom";
 
 export default () => {
   const [columns] = useState([
@@ -31,7 +32,9 @@ export default () => {
 
   const HighlightedCell = ({ value, style, ...restProps }) => (
     <Table.Cell {...restProps}>
-      <a href="/test">{value}</a>
+      <nav>
+        <Link to="/about">{value}</Link>
+      </nav>
     </Table.Cell>
   );
 

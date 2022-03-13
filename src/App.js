@@ -1,8 +1,17 @@
 import "./App.css";
-import TableMovie from "./components/TableMovie";
+import Home from "./pages/Home";
+import AboutMovie from "./pages/AboutMovie";
+import { Routes, Route } from "react-router-dom";
 
 function App() {
-  return <><TableMovie variant="contained">Hello World</TableMovie></>;
+  return (
+    <>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="about" element={<AboutMovie />} />
+      </Routes>
+    </>
+  );
 }
 
 export default App;
