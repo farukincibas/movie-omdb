@@ -11,9 +11,8 @@ const AboutMovie = () => {
 
   const { showDetail, selectedMovie } = useContext(MovieContext);
   useEffect(() => {
-    console.log(selectedMovie);
     showDetail(id);
-  }, []);
+  }, [id]);
 
   return (
     <div className="detail-container">

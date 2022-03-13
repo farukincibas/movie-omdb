@@ -8,17 +8,6 @@ import CssBaseline from "@mui/material/CssBaseline";
 import MovieAppProvider from "./context/MovieContext";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 
-const themeDark = createTheme({
-  palette: {
-    background: {
-      default: "#222222",
-    },
-    text: {
-      primary: "#ffffff",
-    },
-  },
-});
-
 const themeLight = createTheme({
   palette: {
     background: {
