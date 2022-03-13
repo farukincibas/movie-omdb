@@ -46,8 +46,6 @@ export default () => {
     if (movies) {
       setRows(movies);
     }
-    console.log(movies);
-    console.log(totalResult);
   }, [movies]);
 
   const LinkedCell = ({ row, value, style, ...restProps }) => (
@@ -66,7 +64,7 @@ export default () => {
 
   const Cell = (props) => {
     const { column } = props;
-    console.log(props);
+  
     if (column.name === "Title") {
       return <LinkedCell {...props} />;
     }
